@@ -23,7 +23,7 @@ class TranslatorServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('mariuzzo/laravel-translator');
+
 	}
 
 	/**

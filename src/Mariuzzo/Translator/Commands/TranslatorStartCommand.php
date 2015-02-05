@@ -3,8 +3,7 @@
 use Illuminate\Config\Repository as Config;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem as File;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
+use Stringy\Stringy;
 use Mariuzzo\Translator\Services\TranslatorService;
 
 /**
@@ -30,19 +29,19 @@ class TranslatorStartCommand extends Command {
 
     /**
      * The Laravel file provider.
-     * @var Illuminate\Support\Facades\File
+     * @var \Illuminate\Support\Facades\File
      */
     protected $file;
 
     /**
      * The Laravel config provider.
-     * @var Illuminate\Support\Facades\Config
+     * @var \Illuminate\Support\Facades\Config
      */
     protected $config;
 
     /**
      * The translator service.
-     * @var Mariuzzo\Translator\Services\TranslatorService
+     * @var \Mariuzzo\Translator\Services\TranslatorService
      */
     protected $translator;
 
@@ -52,11 +51,12 @@ class TranslatorStartCommand extends Command {
      */
     protected $missing;
 
-	/**
-	 * Create a new command instance.
-	 *
-	 * @return void
-	 */
+    /**
+     * Create a new command instance.
+     *
+     * @param File $file
+     * @param Config $config
+     */
 	public function __construct(File $file, Config $config)
 	{
 		parent::__construct();
@@ -128,13 +128,12 @@ class TranslatorStartCommand extends Command {
 
     /**
      * Return languages files.
-     *
      * @return array Array of languages files.
+     * @throws \Exception
      */
     protected function getLangFiles()
     {
-        $messages = array();
-        $path = app_path().'/lang';
+        $path = $this->getLangPath();
 
         if ( ! $this->file->exists($path))
         {
@@ -142,6 +141,10 @@ class TranslatorStartCommand extends Command {
         }
 
         return $this->file->allFiles($path);
+    }
+
+    protected function getLangPath(){
+        return base_path($this->config->get("app.lang_path", "resources/lang"));
     }
 
     /**
@@ -193,10 +196,6 @@ class TranslatorStartCommand extends Command {
                 {
                     continue;
                 }
-
-                // Get sample value.
-                $sampleValue;
-                $sampleLocale;
 
                 foreach ($this->translator->getLocales() as $l)
                 {
@@ -279,7 +278,7 @@ class TranslatorStartCommand extends Command {
         {
             foreach ($bundles as $bundle => $keys)
             {
-                $path = app_path()."/lang/$locale/$bundle.php";
+                $path = $this->getLangPath()."/$locale/$bundle.php";
                 $contents = "<?php\n\nreturn ".var_export($keys, true).";\n";
                 $this->file->put($path, $contents);
                 $this->info(" > File saved: $path");
