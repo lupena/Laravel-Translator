@@ -11,7 +11,7 @@
 Add the following line to your `composer.json` file under `require`:
 
 ```json
-"vluzrmos/laravel-translator": "dev-master"
+"vluzrmos/laravel-translator": "~2.0"
 ```
 
 Then run:
