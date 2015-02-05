@@ -1,5 +1,5 @@
 {
-    "name": "mariuzzo/laravel-translator",
+    "name": "vluzrmos/laravel-translator",
     "description": "Laravel command that interactively helps you translate missing keys.",
     "version": "1.0.0",
     "type": "library",
@@ -11,6 +11,11 @@
         "email": "rubens@mariuzzo.com",
         "homepage": "https://github.com/rmariuzzo",
         "role": "Developer"
+    },{
+        "name": "Vagner Luz do Carmo",
+        "email": "vluzrmos@gmail.com",
+        "homepage": "http://blog.vluzrmos.com.br",
+        "role": "contributor"
     }],
     "support": {
         "issues": "https://github.com/rmariuzzo/Laravel-Translator/issues",
@@ -18,7 +23,7 @@
     },
     "require": {
         "php": ">=5.4.0",
-        "illuminate/support": "4.2.*"
+        "illuminate/support": "~5.0"
     },
     "autoload": {
         "psr-0": {
